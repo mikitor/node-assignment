@@ -1,6 +1,6 @@
 const express = require('express');
 const { requestData } = require('../service/request_data');
-const { compareNumbers } = require('../helpers/index');
+const { compareNumbers } = require('../helpers/functions');
 
 const router = express.Router();
 const URL = process.env.API_URL;
