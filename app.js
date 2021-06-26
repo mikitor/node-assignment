@@ -6,7 +6,7 @@ if (config.error) {
 }
 
 const express = require('express');
-const sports = require('./controller/sports');
+const sportsRoutes = require('./routes/sports');
 const getBestLanguage = require('./middlewares/best_language');
 
 const PORT = process.env.PORT || 3000;
@@ -16,8 +16,8 @@ const app = express();
 // Global middlewares
 app.use(getBestLanguage);
 
-// Route handlers
-app.use('/sports', sports);
+// Routes
+app.use('/sports', sportsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Node assignment app listening at http://localhost:${PORT}`);
