@@ -1,17 +1,12 @@
 const { requestData } = require('./request_data');
-const { compareNumbers } = require('../helpers/functions');
-
-const getApiUrl = (language) => `${process.env.API_HOST}/${language}/${process.env.API_PATH}`;
+const storageService = require('./storage');
 
 class SportsService {
   getSports(language) {
-    return requestData(getApiUrl(language))
+    return requestData(language)
+      .then(() => storageService.getSports(language))
       .then((data) => {
-        const sports = data.result.sports
-          .sort(compareNumbers('pos'))
-          .map(({ id, desc }) => ({ id, desc }));
-
-        return { success: true, data: sports };
+        return { success: true, data };
       })
       .catch((error) => {
         return { success: false, error };
