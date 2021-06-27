@@ -7,6 +7,7 @@ if (config.error) {
 
 const express = require('express');
 const getBestLanguage = require('./middlewares/best_language');
+const globalErrorHandler = require('./middlewares/global_error_handler');
 const routeHandler = require('./routes/routes');
 
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,8 @@ app.use(getBestLanguage);
 
 // Routes
 app.use('/', routeHandler);
+
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Node assignment app listening at http://localhost:${PORT}`);
