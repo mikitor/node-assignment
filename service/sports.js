@@ -1,12 +1,13 @@
 const storageService = require('./storage');
+const NotFoundError = require('../errors/not_found');
 
 class SportsService {
   getSports(language) {
-    try {
-      const data = storageService.getSports(language);
-      return { success: true, data };
-    } catch (error) {
-      return { success: false, error };
+    const sports = storageService.getSports(language);
+    if (!sports) {
+      throw new NotFoundError('Could not find sports for the given language');
+    } else {
+      return sports;
     }
   }
 }

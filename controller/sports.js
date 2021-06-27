@@ -3,12 +3,8 @@ const SportsService = require('../service/sports');
 const sportsServiceInstance = new SportsService();
 
 const getSports = (req, res) => {
-  try {
-    const successResponse = sportsServiceInstance.getSports(req.language);
-    res.send(successResponse);
-  } catch (error) {
-    res.status(500).send(errorResponse);
-  }
+  const sports = sportsServiceInstance.getSports(req.language);
+  res.status(200).json({ success: true, data: sports });
 };
 
 module.exports = {
