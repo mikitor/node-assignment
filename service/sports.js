@@ -1,4 +1,3 @@
-const { requestData } = require('./request_data');
 const storageService = require('./storage');
 
 class SportsService {
