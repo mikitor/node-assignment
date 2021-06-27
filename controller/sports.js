@@ -7,6 +7,12 @@ const getSports = (req, res) => {
   res.status(200).json({ success: true, data: sports });
 };
 
+const getSportsAllLanguages = (req, res) => {
+  const sportsAllLanguages = sportsServiceInstance.getSportsAllLanguages();
+  res.status(200).json({ success: true, data: sportsAllLanguages });
+};
+
 module.exports = {
   getSports,
+  getSportsAllLanguages,
 };

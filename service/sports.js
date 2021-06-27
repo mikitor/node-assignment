@@ -10,6 +10,14 @@ class SportsService {
       return sports;
     }
   }
+
+  getSportsAllLanguages() {
+    const sportsAllLanguages = storageService.getSportsAllLanguages();
+    if (!sportsAllLanguages || !sportsAllLanguages.length) {
+      throw new NotFoundError('Could not find sports in any of the supported languages');
+    }
+    return sportsAllLanguages;
+  }
 }
 
 module.exports = SportsService;

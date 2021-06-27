@@ -1,3 +1,4 @@
+const { SUPPORTED_LANGUAGES } = require('../helpers/constants');
 const { requestDataService } = require('../service/request_data');
 
 const requestData = async (req, res, next) => {
@@ -6,7 +7,12 @@ const requestData = async (req, res, next) => {
   next();
 };
 
+const requestDataAllLanguages = async (req, res, next) => {
+  await Promise.all(SUPPORTED_LANGUAGES.map((language) => requestDataService(language)));
+  next();
+};
 
 module.exports = {
   requestData,
+  requestDataAllLanguages,
 };

@@ -1,3 +1,5 @@
+const { SUPPORTED_LANGUAGES } = require('../helpers/constants');
+
 class StorageService {
   constructor() {
     this.etags = new Map();
@@ -10,6 +12,26 @@ class StorageService {
 
   getSports(language) {
     return this.sports.get(language);
+  }
+
+  getSportsAllLanguages() {
+    const sportsAllLanguages = [];
+
+    SUPPORTED_LANGUAGES.forEach((language) => {
+      if (this.sports.has(language)) {
+        this.sports.get(language).forEach((cachedSport) => {
+          const existingEntry = sportsAllLanguages.find((sport) => sport.id === cachedSport.id);
+
+          if (existingEntry) {
+            existingEntry.desc.push(cachedSport.desc);
+          } else {
+            sportsAllLanguages.push({ id: cachedSport.id, desc: [cachedSport.desc] });
+          }
+        });
+      }
+    });
+
+    return sportsAllLanguages;
   }
 
   getEtag(language) {
