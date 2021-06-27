@@ -1,9 +1,9 @@
 const https = require('https');
-const storageService = require('./storage');
+const storageService = require('../service/storage');
 
 const { compareNumbers } = require('../helpers/functions');
 
-const requestData = (language) => {
+const requestDataService = (language) => {
   const options = {
     hostname: process.env.API_HOST,
     path: `/${language}/${process.env.API_PATH}`,
@@ -58,5 +58,5 @@ const requestData = (language) => {
 };
 
 module.exports = {
-  requestData,
+  requestDataService,
 };
