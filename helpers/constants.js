@@ -1,7 +1,7 @@
-const SUPPORTED_LOCALES = ['en-gb', 'de', 'zh'];
+const SUPPORTED_LANGUAGES = ['en-gb', 'de', 'zh'];
 const DEFAULT_LANGUAGE = 'en-gb';
 
 module.exports = {
-  SUPPORTED_LOCALES,
+  SUPPORTED_LANGUAGES,
   DEFAULT_LANGUAGE,
-}
+};
