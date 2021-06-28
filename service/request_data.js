@@ -1,7 +1,6 @@
 const https = require('https');
 const storageService = require('../service/storage');
-
-const { compareNumbers } = require('../helpers/functions');
+const saveDataService = require('./save_data')(storageService);
 
 const requestDataService = (language) => {
   const options = {
@@ -21,11 +20,12 @@ const requestDataService = (language) => {
     const request = https.request(options, (response) => {
       const { etag } = response.headers;
 
-      if (!storageService.hasEtag(language) || !storageService.isIdenticalEtag(language, etag)) {
-        storageService.setEtag(language, etag);
+      if (response.statusCode === 304) {
+        resolve();
       }
 
-      if (response.statusCode !== 304) {
+      // Only resolve with the responseBody, if there is new data received
+      if (response.statusCode === 200) {
         let responseBody = '';
 
         response.on('data', (chunk) => {
@@ -33,10 +33,8 @@ const requestDataService = (language) => {
         });
 
         response.on('end', () => {
-          resolve({ shouldCache: true, etag, language, data: JSON.parse(responseBody) });
+          resolve({ etag, language, data: JSON.parse(responseBody) });
         });
-      } else {
-        resolve({ shouldCache: false });
       }
     });
 
@@ -45,16 +43,7 @@ const requestDataService = (language) => {
     });
 
     request.end();
-  }).then((data) => {
-    if (data.shouldCache) {
-      const sports = data.data.result.sports;
-      const sportsToStore = sports
-        .sort(compareNumbers('pos'))
-        .map(({ id, desc }) => ({ id, desc }));
-
-      storageService.updateSports(data.language, sportsToStore);
-    }
-  });
+  }).then(saveDataService);
 };
 
 module.exports = {

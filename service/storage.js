@@ -1,9 +1,11 @@
 const { SUPPORTED_LANGUAGES } = require('../helpers/constants');
+const { extractBasicEventData } = require('../helpers/functions');
 
 class StorageService {
   constructor() {
     this.etags = new Map();
     this.sports = new Map();
+    this.events = new Map();
   }
 
   updateSports(language, sports) {
@@ -32,6 +34,25 @@ class StorageService {
     });
 
     return sportsAllLanguages;
+  }
+
+  updateEvents(language, events) {
+    this.events.set(language, events);
+  }
+
+  getAllEvents(language) {
+    return this.events.get(language).map(extractBasicEventData);
+  }
+
+  getEventsBySportId(language, sportId) {
+    return this.events
+      .get(language)
+      .filter((event) => event.sport_id === Number(sportId))
+      .map(extractBasicEventData);
+  }
+
+  getEventById(language, eventId) {
+    return this.events.get(language).find((event) => event.id === Number(eventId));
   }
 
   getEtag(language) {
