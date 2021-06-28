@@ -1,18 +1,17 @@
-const SportsService = require('../service/sports');
+class SportsController {
+  constructor({ sportsService }) {
+    this.sportsService = sportsService;
+  }
 
-const sportsServiceInstance = new SportsService();
+  getSports = (req, res) => {
+    const sports = this.sportsService.getSports(req.language);
+    res.status(200).json({ success: true, data: sports });
+  };
 
-const getSports = (req, res) => {
-  const sports = sportsServiceInstance.getSports(req.language);
-  res.status(200).json({ success: true, data: sports });
-};
+  getSportsAllLanguages = (req, res) => {
+    const sportsAllLanguages = this.sportsService.getSportsAllLanguages();
+    res.status(200).json({ success: true, data: sportsAllLanguages });
+  };
+}
 
-const getSportsAllLanguages = (req, res) => {
-  const sportsAllLanguages = sportsServiceInstance.getSportsAllLanguages();
-  res.status(200).json({ success: true, data: sportsAllLanguages });
-};
-
-module.exports = {
-  getSports,
-  getSportsAllLanguages,
-};
+module.exports = SportsController;

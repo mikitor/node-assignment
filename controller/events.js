@@ -1,20 +1,17 @@
-const EventsService = require('../service/events');
+class EventsController {
+  constructor({ eventsService }) {
+    this.eventsService = eventsService;
+  }
 
-const eventsServiceInstance = new EventsService();
+  getEvents = (req, res) => {
+    const events = this.eventsService.getEvents(req.language, req.params.sportId);
+    res.status(200).json({ success: true, data: events });
+  };
 
-const getEvents = (req, res) => {
-  const events = eventsServiceInstance.getEvents(req.language, req.params.sportId);
+  getEventById = (req, res) => {
+    const event = this.eventsService.getEventById(req.language, req.params.eventId);
+    res.status(200).json({ success: true, data: event });
+  };
+}
 
-  res.status(200).json({ success: true, data: events });
-};
-
-const getEventById = (req, res) => {
-  const event = eventsServiceInstance.getEventById(req.language, req.params.eventId);
-
-  res.status(200).json({ success: true, data: event });
-};
-
-module.exports = {
-  getEvents,
-  getEventById,
-};
+module.exports = EventsController;
