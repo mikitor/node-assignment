@@ -28,7 +28,7 @@ app.listen(PORT, () => {
   console.log(`Node assignment app listening at http://localhost:${PORT}`);
 });
 
-// process.on('unhandledRejection', (error, promise) => {
-//   console.log(' Oh Lord! We forgot to handle a promise rejection here: ', promise);
-//   console.log(' The error was: ', error);
-// });
+process.on('unhandledRejection', (error, promise) => {
+  console.error('An unhandled promise rejection happened: ', promise);
+  console.error('The unhandled promise rejection error: ', error);
+});
