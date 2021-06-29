@@ -39,6 +39,7 @@ const requestDataService = (language) => {
     });
 
     request.on('error', (error) => {
+      console.error(error);
       reject(error);
     });
 
