@@ -20,9 +20,15 @@ app.use(getBestLanguage);
 // Routes
 app.use('/', routeHandler);
 
+// Error handlers
 app.use(routeNotFoundErrorHandler);
 app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Node assignment app listening at http://localhost:${PORT}`);
 });
+
+// process.on('unhandledRejection', (error, promise) => {
+//   console.log(' Oh Lord! We forgot to handle a promise rejection here: ', promise);
+//   console.log(' The error was: ', error);
+// });
