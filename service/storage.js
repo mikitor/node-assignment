@@ -1,6 +1,3 @@
-const { SUPPORTED_LANGUAGES } = require('../helpers/constants');
-const { extractBasicEventData } = require('../helpers/functions');
-
 class StorageService {
   constructor() {
     this.etags = new Map();
@@ -9,50 +6,19 @@ class StorageService {
   }
 
   updateSports(language, sports) {
-    this.sports.set(language, sports);
+    return this.sports.set(language, sports);
   }
 
   getSports(language) {
     return this.sports.get(language);
   }
 
-  getSportsAllLanguages() {
-    const sportsAllLanguages = [];
-
-    SUPPORTED_LANGUAGES.forEach((language) => {
-      if (this.sports.has(language)) {
-        this.sports.get(language).forEach((cachedSport) => {
-          const existingEntry = sportsAllLanguages.find((sport) => sport.id === cachedSport.id);
-
-          if (existingEntry) {
-            existingEntry.desc.push(cachedSport.desc);
-          } else {
-            sportsAllLanguages.push({ id: cachedSport.id, desc: [cachedSport.desc] });
-          }
-        });
-      }
-    });
-
-    return sportsAllLanguages;
-  }
-
   updateEvents(language, events) {
-    this.events.set(language, events);
+    return this.events.set(language, events);
   }
 
-  getAllEvents(language) {
-    return this.events.get(language).map(extractBasicEventData);
-  }
-
-  getEventsBySportId(language, sportId) {
-    return this.events
-      .get(language)
-      .filter((event) => event.sport_id === Number(sportId))
-      .map(extractBasicEventData);
-  }
-
-  getEventById(language, eventId) {
-    return this.events.get(language).find((event) => event.id === Number(eventId));
+  getEvents(language) {
+    return this.events.get(language);
   }
 
   getEtag(language) {

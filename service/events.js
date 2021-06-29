@@ -1,4 +1,5 @@
 const NotFoundError = require('../errors/not_found');
+const { extractBasicEventData } = require('../helpers/functions');
 
 class EventsService {
   constructor({ storage }) {
@@ -6,21 +7,22 @@ class EventsService {
   }
 
   getEvents(language, sportId) {
-    const events = sportId
-      ? this.storage.getEventsBySportId(language, sportId)
-      : this.storage.getAllEvents(language);
-
-    if (sportId && (!events || !events.length)) {
-      throw new NotFoundError('Could not find events for the given sportId');
-    } else if (!events || !events.length) {
-      throw new NotFoundError('Could not find events');
+    if (
+      sportId &&
+      !this.storage.getSports(language).find((sport) => sport.id === Number(sportId))
+    ) {
+      throw new NotFoundError('Events not found for the provided sportId');
     }
 
-    return events;
+    const allEvents = this.storage.getEvents(language);
+
+    return sportId
+      ? allEvents.filter((event) => event.sport_id === Number(sportId)).map(extractBasicEventData)
+      : allEvents.map(extractBasicEventData);
   }
 
   getEventById(language, eventId) {
-    const event = this.storage.getEventById(language, eventId);
+    const event = this.storage.getEvents(language).find((event) => event.id === Number(eventId));
 
     if (!event) {
       throw new NotFoundError('Could not find event for the given eventId');

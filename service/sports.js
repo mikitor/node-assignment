@@ -1,4 +1,4 @@
-const NotFoundError = require('../errors/not_found');
+const { SUPPORTED_LANGUAGES } = require('../helpers/constants');
 
 class SportsService {
   constructor({ storage }) {
@@ -6,21 +6,26 @@ class SportsService {
   }
 
   getSports(language) {
-    const sports = this.storage.getSports(language);
-
-    if (!sports) {
-      throw new NotFoundError('Could not find sports for the given language');
-    }
-
-    return sports;
+    return this.storage.getSports(language);
   }
 
   getSportsAllLanguages() {
-    const sportsAllLanguages = this.storage.getSportsAllLanguages();
+    const sportsAllLanguages = [];
 
-    if (!sportsAllLanguages || !sportsAllLanguages.length) {
-      throw new NotFoundError('Could not find sports in any of the supported languages');
-    }
+    SUPPORTED_LANGUAGES.forEach((language) => {
+      const sports = this.storage.getSports(language);
+      if (sports && sports.length) {
+        sports.forEach((cachedSport) => {
+          const existingEntry = sportsAllLanguages.find((sport) => sport.id === cachedSport.id);
+
+          if (existingEntry) {
+            existingEntry.desc.push(cachedSport.desc);
+          } else {
+            sportsAllLanguages.push({ id: cachedSport.id, desc: [cachedSport.desc] });
+          }
+        });
+      }
+    });
 
     return sportsAllLanguages;
   }
