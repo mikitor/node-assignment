@@ -3,3 +3,6 @@ node_modules/
 
 # .env file containing secrets and configuration
 .env
+
+# Istanbul generated files
+.nyc_output/
