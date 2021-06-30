@@ -2,9 +2,9 @@
 
 ## Setup
 
-In order to keep the identity of the company and the task details secret, these are saved in a .env file. To be able to run the server please change the name of the `sampledotenv` file to `.env`, and please provide the correct `API_HOST` and `API_PATH`.
+In order to keep the identity of the company and the task details secret, these are saved in a .env file. To be able to run the server, please change the name of the `sampledotenv` file to `.env`, and please provide the correct `API_HOST` and `API_PATH`.
 
-After that please run in the downloaded folder:
+After that, please run in the downloaded folder:
 ```
 npm i
 npm start
@@ -27,7 +27,7 @@ npm run test-watch
 
 ## Available routes
 
-By default the response in English, however, if the request contains `Accept-Language`, English, German, and Chinese are supported languages
+By default, the response is in English; however, if the request contains the `Accept-Language` header, English, German, and Chinese are supported languages.
 
 ### Sports routes
 
